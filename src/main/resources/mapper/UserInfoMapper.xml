@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjl.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.hjl.pojo.UserInfo">
+        <result column="userId" jdbcType="INTEGER" property="userid" />
+        <result column="userName" jdbcType="VARCHAR" property="username" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+    </resultMap>
+
+    <!--我自己加的方法-->
+    <select id="select" resultType="com.hjl.pojo.UserInfo">
+    select * from userinfo
+  </select>
+
+    <select id="selectById" parameterType="int" resultType="com.hjl.pojo.UserInfo">
+    select * from userinfo where userId=#{userId}
+  </select>
+
+    <select id="selectById1" parameterType="int" resultType="com.hjl.pojo.UserInfo">
+    select * from userinfo where userId=#{userId}
+  </select>
+
+    <select id="selectById2" parameterType="java.util.Map" resultType="com.hjl.pojo.UserInfo">
+    select * from userinfo where userId=#{userId}
+  </select>
+
+
+    <select id="selectById3" parameterType="java.util.Map" resultType="com.hjl.pojo.UserInfo">
+        <if test="type == 1">
+            select * from userinfo where userId=#{userId}
+        </if>
+        <if test="type == 2">
+            select * from userinfo where 1=1 and userId=#{userId}
+        </if>
+  </select>
+</mapper>
