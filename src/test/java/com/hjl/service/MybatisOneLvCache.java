@@ -15,21 +15,27 @@ import java.util.Map;
 
 
 @SpringBootTest(classes = SpringbootMybatisDemoApplication.class) //启动项类
-public class UserServiceTest {
+public class  MybatisOneLvCache {
     @Autowired
     private UserMapper userMapper;
 
    Logger logger=Logger.getLogger(this.getClass());
 
-    @Test
-    @Transactional//开启事务
+
 //    1、为什么开启事务
 //    由于使用了数据库连接池，默认每次查询完之后自动commite，这就导致两次查询使用的不是同一个sqlSessioin，根据一级缓存的原理，它将永远不会生效。
 //    当我们开启了事务，两次查询都在同一个sqlSession中，从而让第二次查询命中了一级缓存。读者可以自行关闭事务验证此结论。
+    /**
+     * 开启事务，测试一级缓存效果
+     * 缓存命中顺序：二级缓存---> 一级缓存---> 数据库
+     **/
+    @Test
+    @Transactional //开启事务
     void selectById(){
+        // 第一次查询，缓存到一级缓存
         UserInfo userInfo=userMapper.selectById(1);
         logger.info(userInfo);
-
+        // 第二次查询，直接读取一级缓存
         UserInfo userInfo1=userMapper.selectById(1);
         logger.info(userInfo1);
 

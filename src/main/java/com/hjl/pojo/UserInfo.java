@@ -1,10 +1,15 @@
 package com.hjl.pojo;
 
-public class UserInfo {
+
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     private int userId;
     private String userName;
     private String phone;
     private String sex;
+
+
 
     @Override
     public String toString() {

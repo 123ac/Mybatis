@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hjl.dao.StudentMapper">
+    <resultMap id="BaseResultMap" type="com.hjl.pojo.Student">
+        <result column="school" jdbcType="VARCHAR" property="school" />
+        <result column="className" jdbcType="VARCHAR" property="className" />
+        <collection property="userInfoArrayList" ofType="com.hjl.pojo.UserInfo">
+            <result column="userid" jdbcType="INTEGER" property="userId" />
+            <result column="userName" jdbcType="VARCHAR" property="userName" />
+        </collection>
+    </resultMap>
+    <resultMap id="UserInfoMap" type="com.hjl.pojo.UserInfo">
+        <result column="userid" jdbcType="INTEGER" property="userId" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
+    </resultMap>
+    <!--开启二级缓存-->
+    <cache></cache>
+    <select id="selectById" parameterType="int" resultType="com.hjl.pojo.Student">
+    select * from student where id=#{id}
+  </select>
+
+    <select id="selectJion"   resultMap="BaseResultMap">
+            select u.userid,u.userName,s.school,s.className from userinfo u inner join student s on s.userid=u.userid;
+    </select>
+
+    <update id="updateById" parameterType="com.hjl.pojo.Student">
+        update student set school=#{school},className=#{className} where id=#{id};
+    </update>
+</mapper>
